@@ -43,7 +43,7 @@ jobs:
             aria2c \
               --split=2 \
               --max-connection-per-server=2 \
-              --min-split-size=300M \
+              --min-split-size=500M \
               --dir="tmp_downloads" \
               "$URL"
           done
@@ -57,14 +57,14 @@ jobs:
           for FILE in tmp_downloads/*; do
             [ -f "$FILE" ] || continue
             SIZE=$(stat -c%s "$FILE")
-            LIMIT=$((90 * 1024 * 1024))
+            LIMIT=$((500 * 1024 * 1024))
             BASENAME=$(basename "$FILE")
 
             if [ "$SIZE" -gt "$LIMIT" ]; then
               echo "✂️ $BASENAME is $(( SIZE / 1024 / 1024 ))MB — splitting with zip..."
               # zip -s creates: file.zip, file.z01, file.z02, ...
-              #zip -s 90m "downloads/${BASENAME}.zip" --out "downloads/${BASENAME}.zip" "$FILE"
-              zip -s 90m "downloads/${BASENAME}.zip" -j "$FILE"
+              #zip -s 500m "downloads/${BASENAME}.zip" --out "downloads/${BASENAME}.zip" "$FILE"
+              zip -s 500m "downloads/${BASENAME}.zip" -j "$FILE"
               echo "✅ Parts: $(ls downloads/${BASENAME}* | wc -l)"
             else
               cp "$FILE" "downloads/$BASENAME"
