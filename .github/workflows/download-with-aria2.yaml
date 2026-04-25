@@ -43,7 +43,7 @@ jobs:
             aria2c \
               --split=2 \
               --max-connection-per-server=2 \
-              --min-split-size=90M \
+              --min-split-size=300M \
               --dir="tmp_downloads" \
               "$URL"
           done
